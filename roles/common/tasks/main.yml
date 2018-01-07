@@ -1,0 +1,18 @@
+---
+
+# Credits to http://blog.stillwell.me/blog/2015/06/09/multi-environment-deployments-with-ansible/ by Mark Stillwell
+
+- name: check host compliance to prerequisites 
+  include_tasks: preliminary_checks.yml
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution|lower }}-{{ansible_distribution_version }}.yml"
+    - "{{ ansible_distribution|lower }}-{{ansible_distribution_release }}.yml"
+    - "{{ ansible_distribution|lower }}-{{ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution|lower }}.yml"
+    - "{{ ansible_os_family|lower }}.yml"
+
+- name: install os specific packages
+  include_tasks: packages.yml 

@@ -1,0 +1,7 @@
+conda_prefix: /opt/conda
+tenants:
+  - tenant_name: tenant1 
+    projects:
+      - project_name: project1
+        kernels:
+          - kernel_name: kernel1

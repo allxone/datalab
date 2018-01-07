@@ -1,0 +1,10 @@
+---
+
+- debug:
+    var: project
+
+- name: Install Kernels
+  include_tasks: kernel.yml kernel="{{ kernels_item }}"
+  with_items: "{{ project.kernels }}"
+  loop_control:
+    loop_var: kernels_item

@@ -1,0 +1,7 @@
+---
+
+- name: Install Tenants
+  include_tasks: tenant.yml tenant="{{ tenants_item }}"
+  with_items: "{{ tenants }}"
+  loop_control:
+    loop_var: tenants_item

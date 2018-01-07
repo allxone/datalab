@@ -1,0 +1,4 @@
+---
+
+- name: install miniconda
+  include_tasks: conda.yml 

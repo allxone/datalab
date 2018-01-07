@@ -1,0 +1,10 @@
+---
+
+- debug:
+    var: tenant
+
+- name: Install Projects
+  include_tasks: project.yml project="{{ projects_item }}"
+  with_items: "{{ tenant.projects }}"
+  loop_control:
+    loop_var: projects_item

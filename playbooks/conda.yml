@@ -1,0 +1,5 @@
+---
+- name: Deploy miniconda
+  hosts: all
+  roles:
+  - conda

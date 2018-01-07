@@ -1,0 +1,19 @@
+---
+
+# this playbook run preliminary checks 
+
+- name: check1_fqdn
+  command: hostname -f
+  register: fqdn
+  changed_when: False
+
+- debug:
+    var: ansible_host
+
+- debug:
+    var: fqdn.stdout
+
+- name: check1_fqdn_assert
+  assert:
+    that:
+      - "fqdn.stdout == ansible_host"

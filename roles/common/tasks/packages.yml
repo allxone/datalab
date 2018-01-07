@@ -1,0 +1,11 @@
+# Credits to http://blog.stillwell.me/blog/2015/06/09/multi-environment-deployments-with-ansible/ by Mark Stillwell
+- debug:
+    var: hostvars[inventory_hostname]['packages']
+
+- name: ensure required packages are installed
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ hostvars[inventory_hostname]['packages'] }}"
+  become: yes
+  when: hostvars[inventory_hostname]['packages']|length > 0
