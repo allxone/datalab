@@ -1,7 +1,43 @@
 conda_prefix: /opt/conda
+conda_config:
+  channels:
+    - conda-forge
+    - defaults
+  show_channel_urls: yes
+jupyterhub
+  environment:
+    - 
 tenants:
-  - tenant_name: tenant1 
+  - tenant_id: TN1
+    tenant_name: tenant1
+    tenant_folder: TN1 
+    hadoop_proxy_user: 
+    hadoop_keytab:
+    allowed_groups: 
+      - group1
+      - group2 
     projects:
-      - project_name: project1
-        kernels:
+      - project_id: PR1
+        project_name: project1
+        spawner_class: 
+        spawner_opts: 
+        notebook_dir: 
+          path: PR1 
+          mask: 770
+          user_subfolder:
+            enabled: True
+            root_link: True
+            mask: 750
+        jupyter_environment: TN1_PR1_ENV1
+        environments:
+          - environment_name: TN1_PR1_ENV1
+            python_version:
+            yaml:
+            packages:
+            - {name: anaconda, version: latest, channel}
+        extra_kernels:
           - kernel_name: kernel1
+            environment: TN1_PR1_ENV1
+            kernel_json: 
+        jupyter_extensions:
+          - ...

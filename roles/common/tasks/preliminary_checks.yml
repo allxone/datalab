@@ -17,3 +17,4 @@
   assert:
     that:
       - "fqdn.stdout == ansible_host"
+  when: ansible_host != 'localhost'
