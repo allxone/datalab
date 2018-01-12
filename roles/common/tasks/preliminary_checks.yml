@@ -16,5 +16,4 @@
 - name: check1_fqdn_assert
   assert:
     that:
-      - "fqdn.stdout == ansible_host"
-  when: ansible_host != 'localhost'
+      - "fqdn.stdout == ansible_host or ansible_host == '127.0.0.1'"

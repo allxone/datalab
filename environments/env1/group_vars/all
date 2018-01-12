@@ -4,16 +4,20 @@ conda_config:
     - conda-forge
     - defaults
   show_channel_urls: yes
-jupyterhub
+jupyterhub:
   environment:
-    - 
+    environment_name: JUPYTERHUB
+    python_version: 3.6
+    yaml:
+    packages: 
+      - {name: jupyterhub, version: latest, channel}
 tenants:
   - tenant_id: TN1
     tenant_name: tenant1
     tenant_folder: TN1 
     hadoop_proxy_user: 
     hadoop_keytab:
-    allowed_groups: 
+    allowed_groups:
       - group1
       - group2 
     projects:

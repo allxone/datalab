@@ -5,6 +5,6 @@
 
 - name: Install Kernels
   include_tasks: kernel.yml kernel="{{ kernels_item }}"
-  with_items: "{{ project.kernels }}"
+  with_items: "{{ project.extra_kernels }}"
   loop_control:
     loop_var: kernels_item
