@@ -26,10 +26,10 @@ install:
 
 script:
   # Check the role/playbook's syntax.
-  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
+  - ansible-playbook tests/test.yml --syntax-check
 
   # Run the role/playbook with ansible-playbook.
-  - ansible-playbook -i tests/inventory -e ansible_python_interpreter=/usr/bin/python tests/test.yml -vvvv --skip-tags update,copy_host_ssh_id
+  - ansible-playbook -e ansible_python_interpreter=/usr/bin/python tests/test.yml -vvvv --skip-tags update,copy_host_ssh_id
 
   # check is the user is created or not
   - id -u tasdik | grep -q "no" && (echo "user not found" && exit 1) || (echo "user found" && exit 0)
