@@ -2,60 +2,75 @@
 # Configuration file for jupyterhub.
 
 c = get_config()
-c.JupyterHub.ip = u'{{ ansible_default_ipv4.address }}'
+c.JupyterHub.ip = 'localhost'
 c.JupyterHub.port = 8000
-c.JupyterHub.cookie_secret_file = u'{{ jupyterhub_srv_dir }}/cookie_secret'
-c.JupyterHub.db_url = u'{{ jupyterhub_srv_dir }}/jupyterhub.sqlite'
+c.JupyterHub.cookie_secret_file = u'{{ jupyterhub.srv_dir }}/cookie_secret'
+c.JupyterHub.db_url = u'{{ jupyterhub.srv_dir }}/jupyterhub.sqlite'
 c.JupyterHub.confirm_no_ssl = True
-{% if not cleanup_on_shutdown %}
+{% if not jupyterhub.cleanup_on_shutdown %}
 c.JupyterHub.cleanup_proxy = False
 c.JupyterHub.cleanup_servers = False
 {% endif %}
 
-# Always start using the labhub script to make JupyterLab work,
-# but don't redirect users to it unless jupyterlab_default is set.
-c.Spawner.cmd = u'/usr/local/bin/start-jupyter-labhub.sh'
-{% if jupyterlab_default %}
+# Authenticator
+c.PAMAuthenticator.service = '{{ jupyterhub.authenticator.pamservice }}'
+
+# Spawner
+c.JupyterHub.spawner_class = '{{ jupyterhub.spawner_class }}'
+c.ProfilesSpawner.default_profiles = [
+       ( "Global sudospawner", 'sudospawner', 'sudospawner.SudoSpawner', {'cmd':['sudospawner-singleuser']}, '*' )
+]
+c.FilteredSpawner.config_file_path=''
+{% if jupyter.jupyterlab_default %}
 c.Spawner.default_url = '/lab'
 {% endif %}
 
 # A list of jupyterhub groups to create.
 c.JupyterHub.load_groups = {
-{%- for group in jupyterhub_groups -%}
-    '{{group.name}}': [
+{%- for group in jupyterhub.groups -%}
+    '{{ group.name }}': [
 {%- for member in group.members -%}
-        '{{member}}',
+        '{{ member }}',
 {%- endfor -%}
     ],
 {% endfor -%}
 }
 
-{% if use_oauth %}
+{% if jupyterhub.oauth.enabled %}
 c.JupyterHub.authenticator_class = u'oauthenticator.LocalGitHubOAuthenticator'
 c.LocalGitHubOAuthenticator.create_system_users = True
-c.Authenticator.add_user_cmd =  ['adduser', '-q', '--home', '{{home_dir}}/USERNAME', '--gecos', '""', '--disabled-password']
-c.GitHubOAuthenticator.oauth_callback_url = u'{{ oauth_callback_url }}'
-c.GitHubOAuthenticator.client_id = u'{{ oauth_client_id }}'
-c.GitHubOAuthenticator.client_secret = u'{{ oauth_client_secret }}'
+c.Authenticator.add_user_cmd =  ['adduser', '-q', '--home', '{{ home_dir }}/USERNAME', '--gecos', '""', '--disabled-password']
+c.GitHubOAuthenticator.oauth_callback_url = u'{{ jupyterhub.oauth.callback_url }}'
+c.GitHubOAuthenticator.client_id = u'{{ jupyterhub.oauth.client_id }}'
+c.GitHubOAuthenticator.client_secret = u'{{ jupyterhub.oauth.client_secret }}'
 {% endif %}
 
-{% if jupyterhub_admin_users|length %}
+{% if jupyterhub.admin_users|length %}
 c.Authenticator.admin_users = {
-{%- for user in jupyterhub_admin_users[:-1] -%}
-'{{user}}',
+{%- for user in jupyterhub.admin_users[:-1] -%}
+'{{ user }}',
 {%- endfor -%}
-'{{-jupyterhub_admin_users[-1]-}}'}
+'{{-jupyterhub.admin_users[-1]-}}'}
 {% else %}
 c.Authenticator.admin_users = set()
 {% endif %}
 
-{% if jupyterhub_users|length %}
+{% if jupyterhub.users|length %}
 c.Authenticator.whitelist = {
-{%- for user in jupyterhub_users[:-1] -%}
+{%- for user in jupyterhub.users[:-1] -%}
 '{{user}}',
 {%- endfor -%}
-'{{-jupyterhub_users[-1]-}}'}
+'{{-jupyterhub.users[-1]-}}'}
 {% else %}
 c.Authenticator.whitelist = set()
 {% endif %}
 
+{% if jupyterhub.debug %}
+#Enable logging
+# Set the log level by value or name.
+c.JupyterHub.log_level = 'DEBUG'
+# Enable debug-logging of the single-user server
+c.Spawner.debug = True
+# Enable debug-logging of the single-user server
+c.SudoSpawner.debug_mediator = True
+{% endif %}

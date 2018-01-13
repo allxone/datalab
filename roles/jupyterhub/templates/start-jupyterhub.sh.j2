@@ -1,4 +1,5 @@
 #!/bin/bash -l
 # {{ ansible_managed }}
 env
+source activate {{ jupyterhub.environment.name }}
 exec jupyterhub $@

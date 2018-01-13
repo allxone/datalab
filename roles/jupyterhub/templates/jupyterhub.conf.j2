@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
 [program:jupyterhub]
-command={{jupyterhub.srv_dir}}/start-jupyterhub.sh --config={{ jupyterhub.config_dir }}/jupyterhub_config.py
+command={{jupyterhub.srv_dir}}/start-jupyterhub.sh --config={{ jupyterhub.config_dir }}/{{ jupyterhub.config_file }}
 redirect_stderr=true
 stdout_logfile={{ jupyterhub.log_dir }}/jupyterhub.log
 autostart=true

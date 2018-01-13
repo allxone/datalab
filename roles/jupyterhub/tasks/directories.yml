@@ -1,55 +1,37 @@
 ---
 
 - name: make sure jupyterhub.config_dir exists
-  file: path={{ jupyterhub.config_dir }}/ state={{ item }} owner=root group=root mode=0755
+  file: path={{ jupyterhub.config_dir }}/ state=directory owner=root group=root mode=0755
   become: true
-  with_items:
-    - directory
-    - touch
   tags:
     - configuration
 
 - name: make sure jupyterhub.log_dir exists
-  file: path={{ jupyterhub.log_dir }}/ state={{ item }} owner=root group=root mode=0755
+  file: path={{ jupyterhub.log_dir }}/ state=directory owner=root group=root mode=0755
   become: true
-  with_items:
-    - directory
-    - touch
   tags:
     - configuration
 
 - name: make sure jupyterhub.srv_dir exists
-  file: path={{ jupyterhub.srv_dir }}/ state={{ item }} owner={{ jupyterhub.user }} group={{ jupyterhub.group }} mode=0755
+  file: path={{ jupyterhub.srv_dir }}/ state=directory owner={{ jupyterhub.user }} group={{ jupyterhub.group }} mode=0755
   become: true
-  with_items:
-    - directory
-    - touch
   tags:
     - configuration
 
 - name: make sure jupyter.templates_dir exists
-  file: path={{ jupyter.templates_dir }}/ state={{ item }} owner=root group=root mode=0755
+  file: path={{ jupyter.templates_dir }}/ state=directory owner=root group=root mode=0755
   become: true
-  with_items:
-    - directory
-    - touch
   tags:
     - configuration
 
 - name: make sure jupyter.config_dir exists
-  file: path={{ jupyter.config_dir }} state={{ item }} owner=root group=root mode=0755
+  file: path={{ jupyter.config_dir }} state=directory owner=root group=root mode=0755
   become: true
-  with_items:
-    - directory
-    - touch
   tags:
     - configuration
 
 - name: make sure ipython.config_dir exists
-  file: path={{ ipython.config_dir }} state={{ item }} owner=root group=root mode=0755
+  file: path={{ ipython.config_dir }} state=directory owner=root group=root mode=0755
   become: true
-  with_items:
-    - directory
-    - touch
   tags:
     - configuration

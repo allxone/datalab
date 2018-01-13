@@ -5,4 +5,15 @@
 - include_tasks: config.yml
 - include_tasks: googleanalytics.yml
 - include_tasks: supervisor.yml
+- name: make sure jupyterhub is present
+  supervisorctl:
+    name: jupyterhub
+    state: present
+  become: yes 
+- meta: flush_handlers
+- name: make sure jupyterhub is started
+  supervisorctl:
+    name: jupyterhub
+    state: started
+  become: yes 
 

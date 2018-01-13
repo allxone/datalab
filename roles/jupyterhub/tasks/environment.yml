@@ -1,7 +1,4 @@
 ---
-- debug:
-    var: environment
-
 - name: create conda environment
   shell: "{{ conda.prefix }}/bin/conda create --quiet --yes --name {{ jupyterhub.environment.name }} python={{ jupyterhub.environment.python_version }} python"
   args:

@@ -1,0 +1,7 @@
+---
+
+- name: restart jupyterhub
+  supervisorctl:
+    name: jupyterhub
+    state: restarted
+  become: yes

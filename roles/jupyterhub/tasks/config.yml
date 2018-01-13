@@ -1,20 +1,15 @@
 ---
 
 - name: install jupyterhub config file
-  template: src=jupyterhub_config.py.j2 dest={{ jupyterhub.config_dir }}/jupyterhub_config.py owner=root group=root mode=0644
+  template: src=jupyterhub_config.py.j2 dest={{ jupyterhub.config_dir }}/{{ jupyterhub.config_file }} owner=root group=root mode=0644
   become: true
+  notify: restart jupyterhub
   tags:
   - configuration
 
 - name: install jupyterhub cookie secret
   template: src="cookie_secret.j2" dest={{ jupyterhub.srv_dir }}/cookie_secret owner={{ jupyterhub.user }} group={{ jupyterhub.group }} mode=0600
+  notify: restart jupyterhub
   become: true
   tags: 
   - configuration
-  
-- name: install jupyter labhub launch script
-  template: src=start-jupyter-labhub.sh.j2 dest=/usr/local/bin/start-jupyter-labhub.sh mode=0777
-  become: true
-  tags: 
-  - configuration
-  - rebuild
