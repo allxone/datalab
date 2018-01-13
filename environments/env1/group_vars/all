@@ -1,16 +1,38 @@
-conda_prefix: /opt/conda
-conda_config:
-  channels:
-    - conda-forge
-    - defaults
-  show_channel_urls: yes
+conda:
+  prefix: /opt/conda
+  config:
+    channels:
+      - conda-forge
+      - defaults
+    show_channel_urls: yes
+
+ipython:
+  config_dir: /etc/ipython
+
+jupyter:
+  config_dir: /etc/jupyter
+  templates_dir: /etc/jupyter/templates
+  ga_tracking_id:
+
 jupyterhub:
+  user: root
+  group: root
+  config_dir: /etc/jupyterhub
+  log_dir: /var/log/jupyterhub
+  srv_dir: /usr/local/share/jupyter/hub/
+  authenticator: pam
+  spawner: 
+  cookie_secret: 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
   environment:
-    environment_name: JUPYTERHUB
+    name: JUPYTERHUB
     python_version: 3.6
-    yaml:
-    packages: 
-      - {name: jupyterhub, version: latest, channel}
+    conda_packages:
+      - configurable-http-proxy
+      - sqlalchemy
+    pip_packages:
+      - jupyterhub==0.8.1
+      - oauthenticator==0.7.2
+
 tenants:
   - tenant_id: TN1
     tenant_name: tenant1

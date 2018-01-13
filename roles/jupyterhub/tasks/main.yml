@@ -1,4 +1,8 @@
 ---
 
-- debug:
-    msg: "installing JupyterHub"
+- include_tasks: environment.yml
+- include_tasks: directories.yml
+- include_tasks: config.yml
+- include_tasks: googleanalytics.yml
+- include_tasks: supervisor.yml
+

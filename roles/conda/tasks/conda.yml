@@ -14,9 +14,9 @@
 
 - name: miniconda is installed
   shell:
-    '"/tmp/{{ conda_installer }}" -b -p "{{ conda_prefix }}"'
+    '"/tmp/{{ conda_installer }}" -b -p "{{ conda.prefix }}"'
   args:
-    creates: "{{ conda_prefix }}"
+    creates: "{{ conda.prefix }}"
     executable: /bin/bash
 
 # add conda to path in two places, so it's always registered
@@ -25,17 +25,17 @@
   lineinfile:
     dest: /etc/bash.bashrc
     state: present
-    line: "export PATH={{conda_prefix}}/bin:$PATH"
+    line: "export PATH={{conda.prefix}}/bin:$PATH"
     insertbefore: BOF
 
 - name: add conda to login PATH
   # add it to profile, so it's for all login shells
   copy:
     dest: /etc/profile.d/conda.sh
-    content: "export PATH={{conda_prefix}}/bin:$PATH"
+    content: "export PATH={{conda.prefix}}/bin:$PATH"
 
 - name: add conda config
   copy:
-    content: "{{ conda_config | to_yaml }}"
-    dest: "{{ conda_prefix }}/.condarc"
+    content: "{{ conda.config | to_yaml }}"
+    dest: "{{ conda.prefix }}/.condarc"
 

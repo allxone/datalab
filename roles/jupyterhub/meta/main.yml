@@ -1,3 +1,4 @@
 ---
 dependencies:
-  - { role: conda}
+  - { role: conda }
+  - { role: supervisor }
