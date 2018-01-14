@@ -7,9 +7,20 @@
   tags:
   - configuration
 
-- name: install jupyterhub cookie secret
-  template: src="cookie_secret.j2" dest={{ jupyterhub.srv_dir }}/cookie_secret owner={{ jupyterhub.user }} group={{ jupyterhub.group }} mode=0600
+- name: create cookie secret
+  shell: openssl rand -hex 32 > "{{ jupyterhub.srv_dir }}/cookie_secret"
+  args:
+    creates: "{{ jupyterhub.srv_dir }}/cookie_secret"
   notify: restart jupyterhub
   become: true
   tags: 
+  - configuration
+
+- name: set cookie secret file attributes
+  file:
+    path: "{{ jupyterhub.srv_dir }}/cookie_secret"
+    owner: "{{ jupyterhub.user }}"
+    group: "{{ jupyterhub.group }}"
+    mode: 0600
+  tags:
   - configuration

@@ -1,4 +1,4 @@
 ---
 
 packages:
-  - telnet
+  - openssl

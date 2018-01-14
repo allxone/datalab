@@ -18,9 +18,10 @@ c.PAMAuthenticator.service = '{{ jupyterhub.authenticator.pamservice }}'
 # Spawner
 c.JupyterHub.spawner_class = '{{ jupyterhub.spawner_class }}'
 c.ProfilesSpawner.default_profiles = [
-       ( "Global sudospawner", 'sudospawner', 'sudospawner.SudoSpawner', {'cmd':['sudospawner-singleuser']}, '*' )
+       ( "Global sudospawner", 'sudospawner', 'sudospawner.SudoSpawner', {'cmd':['{{ jupyterhub.srv_dir }}/sudospawner-singleuser']}, '*' )
 ]
-c.FilteredSpawner.config_file_path=''
+FilteredSpawner_config_file_path='{{ jupyterhub.config_dir }}/tenants.yml'
+
 {% if jupyter.jupyterlab_default %}
 c.Spawner.default_url = '/lab'
 {% endif %}

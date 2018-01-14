@@ -1,0 +1,13 @@
+#!/bin/bash -l
+# {{ ansible_managed }}
+set -e
+
+# Activate the notebook environment
+source {{ conda.prefix }}/bin/activate
+
+# Show environment info in the log to aid debugging
+conda info
+
+# Delegate the notebook server launch to the jupyterhub-singleuser script.
+# this is how most sudospawner-singleuser scripts should end.
+exec "$(dirname "$0")/jupyterhub-singleuser" $@

@@ -4,6 +4,7 @@
   args:
     creates: "{{ conda.prefix }}/envs/{{ jupyterhub.environment.name }}"
     executable: /bin/bash
+  notify: restart jupyterhub
   tags:
     - packages
 
@@ -11,6 +12,7 @@
   conda: name={{ item }} state=present extra_args="--name {{ jupyterhub.environment.name }}" executable="{{ conda.prefix }}/bin/conda"
   become: true
   with_items: "{{ jupyterhub.environment.conda_packages }}"
+  notify: restart jupyterhub
   tags:
     - packages
 
@@ -18,5 +20,6 @@
   pip: name={{ item }} state=present editable=false executable={{ conda.prefix }}/envs/{{ jupyterhub.environment.name }}/bin/pip
   become: true
   with_items: "{{ jupyterhub.environment.pip_packages }}"
+  notify: restart jupyterhub
   tags:
     - packages
