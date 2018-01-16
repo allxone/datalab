@@ -1,5 +1,13 @@
 ---
 
+- name: Create Tenant root folder
+  file:
+    path: "{{ jupyter.root_folder }}"
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+
 - name: Install Tenants
   include_tasks: tenant.yml tenant="{{ tenants_item }}"
   with_items: "{{ tenants }}"

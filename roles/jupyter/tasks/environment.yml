@@ -1,0 +1,22 @@
+---
+- name: create conda environment
+  shell: "{{ conda.prefix }}/bin/conda create --quiet --yes --name {{ env.name }} python={{ env.python_version }} python"
+  args:
+    creates: "{{ conda.prefix }}/envs/{{ env.name }}"
+    executable: /bin/bash
+  tags:
+    - packages
+
+- name: install environment dependencies via conda
+  conda: name={{ item }} state=present extra_args="--name {{ env.name }}" executable="{{ conda.prefix }}/bin/conda"
+  become: true
+  with_items: "{{ env.conda_packages }}"
+  tags:
+    - packages
+
+- name: install environment dependencies via pip
+  pip: name={{ item }} state=present editable=false executable={{ conda.prefix }}/envs/{{ env.name }}/bin/pip
+  become: true
+  with_items: "{{ env.pip_packages }}"
+  tags:
+    - packages

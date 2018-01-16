@@ -3,4 +3,5 @@
   connection: local
   become: true
   roles:
+    - jupyter
     - jupyterhub

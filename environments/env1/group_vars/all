@@ -15,6 +15,7 @@ jupyter:
   share_dir: /usr/local/share/jupyter
   ga_tracking_id:
   jupyterlab_default: true
+  root_folder: /data
 
 jupyterhub:
   user: root
@@ -57,7 +58,7 @@ jupyterhub:
 tenants:
   - tenant_id: TN1
     tenant_name: tenant1
-    tenant_folder: TN1 
+    folder: TN1 
     hadoop_proxy_user: 
     hadoop_keytab:
     allowed_groups:
@@ -66,22 +67,22 @@ tenants:
     projects:
       - project_id: PR1
         project_name: project1
+        folder: PR1 
         spawner_class: 
         spawner_opts: 
         notebook_dir: 
           path: PR1 
-          mask: 770
           user_subfolder:
             enabled: True
             root_link: True
             mask: 750
         jupyter_environment: TN1_PR1_ENV1
         environments:
-          - environment_name: TN1_PR1_ENV1
-            python_version:
-            yaml:
-            packages:
-            - {name: anaconda, version: latest, channel}
+          - name: TN1_PR1_ENV1
+            python_version: 3.6
+            conda_packages:
+              - anaconda
+            pip_packages: []
         extra_kernels:
           - kernel_name: kernel1
             environment: TN1_PR1_ENV1

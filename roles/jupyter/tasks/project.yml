@@ -3,6 +3,46 @@
 - debug:
     var: project
 
+- name: Create Project root folder
+  file:
+    path: "{{ jupyter.root_folder }}/{{ tenant.folder }}/{{ project.folder }}"
+    owner: root
+    group: root
+    state: directory
+    mode: 0770
+
+- name: Set Project root folder ACL
+  acl:
+    path: "{{ jupyter.root_folder }}/{{ tenant.folder }}/{{ project.folder }}"
+    entity: "{{ item }}"
+    etype: group
+    permissions: rwx
+    default: no
+    state: present
+  with_items: "{{ tenant.allowed_groups }}"
+  tags:
+    - configuration
+    - optional
+
+- name: Set Project root folder default ACL
+  acl:
+    path: "{{ jupyter.root_folder }}/{{ tenant.folder }}/{{ project.folder }}"
+    entity: "{{ item }}"
+    etype: group
+    permissions: rwx
+    default: yes
+    state: present
+  with_items: "{{ tenant.allowed_groups }}"
+  tags:
+    - configuration
+    - optional
+
+- name: Create Environments
+  include_tasks: environment.yml env="{{ environments_item }}"
+  with_items: "{{ project.environments }}"
+  loop_control:
+    loop_var: environments_item
+
 - name: Install Kernels
   include_tasks: kernel.yml kernel="{{ kernels_item }}"
   with_items: "{{ project.extra_kernels }}"

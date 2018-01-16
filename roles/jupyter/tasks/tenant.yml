@@ -1,7 +1,64 @@
 ---
 
 - debug:
-    var: tenant
+    var: tenant    
+
+- name: Create Tenant root folder
+  file:
+    path: "{{ jupyter.root_folder }}/{{ tenant.folder }}"
+    owner: root
+    group: root
+    state: directory
+    mode: 0770
+
+- name: Set Tenant root folder ACL
+  acl:
+    path: "{{ jupyter.root_folder }}/{{ tenant.folder }}"
+    entity: "{{ item }}"
+    etype: group
+    permissions: rwx
+    default: no
+    state: present
+  with_items: "{{ tenant.allowed_groups }}"
+  tags:
+    - configuration
+    - optional
+
+- name: Set Tenant root folder default ACL
+  acl:
+    path: "{{ jupyter.root_folder }}/{{ tenant.folder }}"
+    entity: "{{ item }}"
+    etype: group
+    permissions: rwx
+    default: yes
+    state: present
+  with_items: "{{ tenant.allowed_groups }}"
+  tags:
+    - configuration
+    - optional
+
+- name: Copy keytab file
+  copy:
+    src: "{{ tenant.keytab }}"
+    dest: "{{ jupyter.root_folder }}/{{ tenant.folder }}/proxy.keytab"
+    owner: root
+    group: root
+    mode: 0640
+  when: tenant.keytab is defined and tenant.keytab | trim != ""
+
+- name: Set keytab ACL
+  acl:
+    path: "{{ jupyter.root_folder }}/{{ tenant.folder }}"
+    entity: "{{ item }}"
+    etype: group
+    permissions: r
+    default: no
+    state: present
+  with_items: "{{ tenant.allowed_groups }}"
+  when: tenant.keytab is defined and tenant.keytab | trim != ""
+  tags:
+    - configuration
+    - optional
 
 - name: Install Projects
   include_tasks: project.yml project="{{ projects_item }}"
