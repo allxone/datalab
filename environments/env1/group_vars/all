@@ -14,7 +14,7 @@ jupyter:
   templates_dir: /etc/jupyter/templates
   share_dir: /usr/local/share/jupyter
   ga_tracking_id:
-  jupyterlab_default: true
+  jupyterlab_default: false
   root_folder: /data
 
 jupyterhub:
@@ -82,6 +82,7 @@ tenants:
             python_version: 3.6
             conda_packages:
               - anaconda
+              - jupyterlab
             pip_packages: []
         extra_kernels:
           - kernel_name: kernel1
