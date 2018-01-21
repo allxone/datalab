@@ -27,12 +27,16 @@
     state: present
     line: "export PATH={{conda.prefix}}/bin:$PATH"
     insertbefore: BOF
+  tags:
+    - system_path
 
 - name: add conda to login PATH
   # add it to profile, so it's for all login shells
   copy:
     dest: /etc/profile.d/conda.sh
     content: "export PATH={{conda.prefix}}/bin:$PATH"
+  tags:
+    - system_path
 
 - name: add conda config
   copy:

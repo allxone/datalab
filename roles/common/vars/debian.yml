@@ -2,3 +2,5 @@
 
 packages:
   - openssl
+  - acl
+  - git

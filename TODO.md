@@ -14,5 +14,4 @@ JupyterHub
 - - custom logo
 
 Jupyter
-- create tenant environments
 - create tenant kernels

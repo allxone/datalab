@@ -1,0 +1,6 @@
+---
+- name: Deploy Jupyter
+  hosts: all
+  roles:
+  - jupyter
+  - jupyterhub

@@ -1,3 +1,8 @@
 .vscode
 *.log
 *.retry
+*.pem
+.terraform
+*.tfplan
+*.tfstate
+*.tfstate.backup
