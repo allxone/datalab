@@ -10,3 +10,7 @@ Preliminary checks and setup common prerequisites
 - Conda
 - Jupyter
 - JupyterHub
+
+## Credits
+Jupyterhub Ansible scripts are mainly based on the work from this Github repo:
+https://github.com/jupyterhub/jupyterhub-deploy-teaching
