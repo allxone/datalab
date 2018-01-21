@@ -6,3 +6,5 @@
 *.tfplan
 *.tfstate
 *.tfstate.backup
+security/
+.DS_Store

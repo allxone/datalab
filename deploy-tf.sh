@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Sample usage
-# ./deploy-tf.sh aws aws_instance.ubuntu14 ubuntu ~/datalab-provisioner.pem
+# ./deploy-tf.sh aws aws_instance.ubuntu14 ubuntu security/datalab-provisioner.pem
+# ./deploy-tf.sh gcp google_compute_instance.ubuntu14 datalab-provisioner security/datalab-provisioner.pem
 
 ### PROVISION JUPYTERHUB SERVER VIA TERRAFORM
 provider=$1
@@ -21,7 +22,7 @@ if [ $skip_terraform -eq 0 ]
 then
 
 pushd ./terraform/$provider
-# terraform init
+terraform init
 terraform plan \
     -out=./.terraform/terraform.tfplan \
     -target=$resource \

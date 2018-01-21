@@ -19,7 +19,7 @@ variable "provisioner_key" {
 
 variable "provisioner_key_file" {
     description = "Private key file path for the provisioner_user"
-    default = "~/datalab-provisioner.pem"
+    default = "security/datalab-provisioner.pem"
 }
 
 variable "server_port" {

@@ -15,3 +15,7 @@ JupyterHub
 
 Jupyter
 - create tenant kernels
+
+Terraform
+- support spot instances
+- Fix GCP: ssh project keys not inherited (unable to access)
